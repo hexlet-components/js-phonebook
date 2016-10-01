@@ -1,0 +1,46 @@
+{
+  "name": "hexlet-servers",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "babel-node": "babel-node",
+    "nodemon": "nodemon",
+    "develop": "nodemon --exec npm run babel-node -- bin/phonebook",
+    "test": "mocha --compilers js:babel-core/register --colors",
+    "gulp": "gulp",
+    "eslint": "eslint",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexlet-components/js-servers.git"
+  },
+  "author": "Kirill Mokevnin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hexlet-components/js-servers/issues"
+  },
+  "homepage": "https://github.com/hexlet-components/js-servers#readme",
+  "dependencies": {
+    "debug": "*"
+  },
+  "devDependencies": {
+    "babel-polyfill": "*",
+    "axios": "*",
+    "nodemon": "*",
+    "mocha": "*",
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-preset-latest": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "*",
+    "babel-eslint": "*",
+    "babel-plugin-syntax-flow": "*",
+    "babel-plugin-transform-flow-strip-types": "*",
+    "eslint-config-airbnb": "*",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-flowtype": "*"
+  }
+}
