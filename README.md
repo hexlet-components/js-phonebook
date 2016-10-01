@@ -1,8 +1,8 @@
-# hexlet-servers
+# hexlet-phonebook
 
-[![Code Climate](https://codeclimate.com/github/hexlet-components/js-servers/badges/gpa.svg)](https://codeclimate.com/github/hexlet-components/js-servers)
-[![Issue Count](https://codeclimate.com/github/hexlet-components/js-servers/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-components/js-servers)
-[![Build Status](https://travis-ci.org/hexlet-components/js-servers.svg?branch=master)](https://travis-ci.org/hexlet-components/js-servers)
+[![Code Climate](https://codeclimate.com/github/hexlet-components/js-phonebook/badges/gpa.svg)](https://codeclimate.com/github/hexlet-components/js-phonebook)
+[![Issue Count](https://codeclimate.com/github/hexlet-components/js-phonebook/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-components/js-phonebook)
+[![Build Status](https://travis-ci.org/hexlet-components/js-phonebook.svg?branch=master)](https://travis-ci.org/hexlet-components/js-phonebook)
 
 ## Setup
 
@@ -13,13 +13,13 @@ make install
 ## Using
 
 ```
-bin/server welcome
+bin/phonebook
 curl localhost:4000
 ```
 
 ## Develop
 
 ```
-make develop SERVER=welcome
+make develop
 ```
 
