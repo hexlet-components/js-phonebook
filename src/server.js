@@ -5,19 +5,12 @@ import url from 'url';
 import querystring from 'querystring';
 import { Log } from './definitions';
 
-import { validate } from './user';
+import { validate, nextId } from './user';
 
 const getParams = address => {
   const { query } = url.parse(address);
   return querystring.parse(decodeURI(query || ''));
 };
-
-const idGenerator = () => {
-  let id = 9;
-  return () => { id++; return id; };
-};
-
-const nextId = idGenerator();
 
 const router = {
   GET: {

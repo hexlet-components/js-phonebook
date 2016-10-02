@@ -1,3 +1,10 @@
+let id = 9;
+
+export const nextId = () => {
+  id++;
+  return id;
+};
+
 export const validate = ({ name, phone }) => {
   const errors = [];
   const presenceMessage = "can't be blank";
