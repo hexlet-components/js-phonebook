@@ -110,9 +110,13 @@ describe('Phonebook', () => {
     const res = await axios.post(`${url}/users.json`, data);
     assert.equal(res.status, 201);
     assert.deepEqual(res.data, result);
+
+    const res2 = await axios.get(`${url}/users/10.json`);
+    assert.equal(res2.status, 200);
+    assert.deepEqual(res2.data, { data });
   });
 
-  it('should work 6', async () => {
+  it('POST /users.json (with errors)', async () => {
     const result = {
       errors: [
         {
@@ -143,7 +147,7 @@ describe('Phonebook', () => {
       },
     };
 
-    const res = await axios.get(`${url}/users/9.json`, { validateStatus: () => true });
+    const res = await axios.get(`${url}/users/9.json`);
     assert.equal(res.status, 200);
     assert.deepEqual(res.data, result);
   });
