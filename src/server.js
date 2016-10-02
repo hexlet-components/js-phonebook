@@ -28,25 +28,32 @@ const router = {
       ];
       res.end(messages.join('\n'));
     },
+
+    '/search.json': (req, res, matches, body, users) => {
+      res.setHeader('Content-Type', 'application/json');
+
+      const { q = '' } = getParams(req.url);
+      const normalizedSearch = q.trim().toLowerCase();
+      const ids = Object.keys(users);
+
+      const usersSubset = ids
+        .filter(id => users[id].name.toLowerCase().includes(normalizedSearch))
+        .map(id => users[id]);
+      res.end(JSON.stringify({ data: usersSubset }));
+    },
+
     '/users.json': (req, res, matches, body, users) => {
       res.setHeader('Content-Type', 'application/json');
 
-      const { search = '', page = 1, perPage = 10 } = getParams(req.url);
-      const normalizedSearch = search.trim().toLowerCase();
+      const { page = 1, perPage = 10 } = getParams(req.url);
       const ids = Object.keys(users);
 
-      if (normalizedSearch.length > 1) {
-        const usersSubset = ids
-          .filter(id => users[id].name.toLowerCase().includes(normalizedSearch))
-          .map(id => users[id]);
-        res.end(JSON.stringify({ data: usersSubset }));
-      } else {
-        const usersSubset = ids.slice(page * perPage - perPage, page * perPage)
-          .map(id => users[id]);
-        const totalPages = Math.ceil((ids.length) / perPage);
-        res.end(JSON.stringify({ meta: { page, perPage, totalPages }, data: usersSubset }));
-      }
+      const usersSubset = ids.slice(page * perPage - perPage, page * perPage)
+        .map(id => users[id]);
+      const totalPages = Math.ceil((ids.length) / perPage);
+      res.end(JSON.stringify({ meta: { page, perPage, totalPages }, data: usersSubset }));
     },
+
     '/users/(\\d+).json': (req, res, matches, body, users) => {
       const id = matches[1];
       res.setHeader('Content-Type', 'application/json');
@@ -81,7 +88,7 @@ const router = {
 export default (log: Log, users: {}) => http.createServer((request, response) => {
   const body = [];
 
-  log(`request: ${request.url}`);
+  log(`${request.method} ${request.url}`);
 
   request
     .on('error', err => log(err))

@@ -10,7 +10,7 @@ import axios from 'axios';
 import debug from 'debug';
 import makeServer from '../src/server';
 
-const log = debug('hexlet-servers');
+const log = debug('hexlet-phonebook');
 const hostname = 'localhost';
 const port = 9000;
 const url = `http://${hostname}:${port}`;
@@ -76,7 +76,7 @@ describe('Phonebook', () => {
     assert.deepEqual(res.data, result);
   });
 
-  it('/users.json?search', async () => {
+  it('/search.json', async () => {
     const result = {
       data: [
         { name: 'Chelsie Eichmann', phone: '1-466-807-1978' },
@@ -85,8 +85,8 @@ describe('Phonebook', () => {
       ],
     };
 
-    const query = querystring.stringify({ search: 'mA' });
-    const res = await axios.get(`${url}/users.json?${query}`);
+    const query = querystring.stringify({ q: 'mA' });
+    const res = await axios.get(`${url}/search.json?${query}`);
     assert.equal(res.status, 200);
     assert.deepEqual(res.data, result);
   });

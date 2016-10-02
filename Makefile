@@ -2,7 +2,7 @@ install:
 	npm install
 
 develop:
-	DEBUG="hexlet-servers" npm run develop
+	DEBUG="hexlet-phonebook" npm run develop
 
 lock:
 	npm shrinkwrap
@@ -12,7 +12,7 @@ build:
 	npm run build
 
 test:
-	DEBUG="hexlet-servers" npm run test
+	DEBUG="hexlet-phonebook" npm run test
 
 lint:
 	npm run eslint -- src test

@@ -3,7 +3,7 @@ import path from 'path';
 import debug from 'debug';
 import makeServer from './server';
 
-const log = debug('hexlet-servers');
+const log = debug('hexlet-phonebook');
 
 export default (port: number) => {
   fs.readFile(path.resolve(__dirname, 'phonebook.txt'), (err, data) => {
