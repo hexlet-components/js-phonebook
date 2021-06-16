@@ -1,0 +1,22 @@
+---
+
+root: true
+
+plugins:
+  - jest
+
+env:
+  node: true
+  mocha: true
+  es2020: true
+
+parserOptions:
+  ecmaVersion: 2020
+
+extends:
+  - 'airbnb-base'
+  - 'plugin:jest/recommended'
+
+rules:
+  import/extensions: 0
+  import/no-extraneous-dependencies: [error, { devDependencies: true }]

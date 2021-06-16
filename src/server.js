@@ -3,11 +3,10 @@
 import http from 'http';
 import url from 'url';
 import querystring from 'querystring';
-import { Log } from './definitions';
 
 import { validate, nextId } from './user';
 
-const getParams = address => {
+const getParams = (address) => {
   const { query } = url.parse(address);
   return querystring.parse(decodeURI(query || ''));
 };
@@ -30,8 +29,8 @@ const router = {
       const ids = Object.keys(users);
 
       const usersSubset = ids
-        .filter(id => users[id].name.toLowerCase().includes(normalizedSearch))
-        .map(id => users[id]);
+        .filter((id) => users[id].name.toLowerCase().includes(normalizedSearch))
+        .map((id) => users[id]);
       res.end(JSON.stringify({ data: usersSubset }));
     },
 
@@ -42,7 +41,7 @@ const router = {
       const ids = Object.keys(users);
 
       const usersSubset = ids.slice(page * perPage - perPage, page * perPage)
-        .map(id => users[id]);
+        .map((id) => users[id]);
       const totalPages = Math.ceil((ids.length) / perPage);
       res.end(JSON.stringify({ meta: { page, perPage, totalPages }, data: usersSubset }));
     },
@@ -60,7 +59,7 @@ const router = {
     },
   },
   POST: {
-    '/users.json': (req, res, matches, body, users, log) => {
+    '/users.json': (req, res, matches, body, users) => {
       res.setHeader('Content-Type', 'application/json');
       const id = nextId();
       const data = JSON.parse(body);
@@ -68,7 +67,7 @@ const router = {
 
       if (errors.length === 0) {
         res.writeHead(201);
-        users[id] = data;
+        users[id] = data; // eslint-disable-line
         res.end(JSON.stringify({ meta: { location: `/users/${id}.json` }, data: { ...data, id } }));
       } else {
         res.writeHead(422);
@@ -78,18 +77,18 @@ const router = {
   },
 };
 
-export default (log: Log, users: {}) => http.createServer((request, response) => {
+export default (log, users) => http.createServer((request, response) => {
   const body = [];
 
   log(`${request.method} ${request.url}`);
 
   request
-    .on('error', err => log(err))
-    .on('data', chunk => body.push(chunk.toString()))
+    .on('error', (err) => log(err))
+    .on('data', (chunk) => body.push(chunk.toString()))
     .on('end', () => {
-      response.on('error', err => log(err));
+      response.on('error', (err) => log(err));
       const routes = router[request.method];
-      const result = Object.keys(routes).find(str => {
+      const result = Object.keys(routes).find((str) => {
         const { pathname } = url.parse(request.url);
         if (!pathname) {
           return false;

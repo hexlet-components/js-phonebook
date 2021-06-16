@@ -1,10 +1,6 @@
 // @flow
 
-import 'babel-polyfill';
-
 import querystring from 'querystring';
-import { it, describe, before, after } from 'mocha';
-import assert from 'assert';
 
 import axios from 'axios';
 import debug from 'debug';
@@ -33,17 +29,17 @@ const users = {
 const server = makeServer(log, users);
 
 describe('Phonebook', () => {
-  before(() => server.listen(port, listenCallback));
+  beforeAll(() => server.listen(port, listenCallback));
 
   it('should work', async () => {
     const res = await axios.get(url);
-    assert.equal(res.status, 200);
-    assert.equal(res.data, 'Welcome to The Phonebook\nRecords count: 9');
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual('Welcome to The Phonebook\nRecords count: 9');
   });
 
   it('should work 2', async () => {
     const res = await axios.get(`${url}/asdf`, { validateStatus: () => true });
-    assert.equal(res.status, 404);
+    expect(res.status).toBe(404);
   });
 
   it('/users.json', async () => {
@@ -58,13 +54,13 @@ describe('Phonebook', () => {
 
     const query = querystring.stringify({ perPage: 3 });
     const res = await axios.get(`${url}/users.json?${query}`);
-    assert.equal(res.status, 200);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual(result);
   });
 
   it('/users.json?perPage&page', async () => {
     const result = {
-      meta: { page: 3, perPage: 4, totalPages: 3 },
+      meta: { page: '3', perPage: '4', totalPages: 3 },
       data: [
         { name: 'Mrs. Marlee Lesch', phone: '(412) 979-7311' },
       ],
@@ -72,8 +68,8 @@ describe('Phonebook', () => {
 
     const query = querystring.stringify({ perPage: 4, page: 3 });
     const res = await axios.get(`${url}/users.json?${query}`);
-    assert.equal(res.status, 200);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual(result);
   });
 
   it('/search.json', async () => {
@@ -87,8 +83,8 @@ describe('Phonebook', () => {
 
     const query = querystring.stringify({ q: 'mA' });
     const res = await axios.get(`${url}/search.json?${query}`);
-    assert.equal(res.status, 200);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual(result);
   });
 
   it('POST /users.json', async () => {
@@ -108,12 +104,12 @@ describe('Phonebook', () => {
       phone: '1234-234-234',
     };
     const res = await axios.post(`${url}/users.json`, data);
-    assert.equal(res.status, 201);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(201);
+    expect(res.data).toEqual(result);
 
     const res2 = await axios.get(`${url}/users/10.json`);
-    assert.equal(res2.status, 200);
-    assert.deepEqual(res2.data, { data });
+    expect(res2.status).toBe(200);
+    expect(res2.data).toEqual({ data });
   });
 
   it('POST /users.json (with errors)', async () => {
@@ -135,8 +131,8 @@ describe('Phonebook', () => {
       phone: '',
     };
     const res = await axios.post(`${url}/users.json`, data, { validateStatus: () => true });
-    assert.equal(res.status, 422);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(422);
+    expect(res.data).toEqual(result);
   });
 
   it('/users/<id>', async () => {
@@ -148,15 +144,14 @@ describe('Phonebook', () => {
     };
 
     const res = await axios.get(`${url}/users/9.json`);
-    assert.equal(res.status, 200);
-    assert.deepEqual(res.data, result);
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual(result);
   });
 
   it('/users/<undefined>', async () => {
     const res = await axios.get(`${url}/users/100.json`, { validateStatus: () => true });
-    assert.equal(res.status, 404);
+    expect(res.status).toBe(404);
   });
 
-
-  after(() => server.close(closeCallback));
+  afterAll(() => server.close(closeCallback));
 });
